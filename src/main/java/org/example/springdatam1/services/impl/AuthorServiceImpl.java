@@ -10,6 +10,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -24,14 +25,14 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional
-    public Author findById(Long aLong) {
+    public Optional<Author> findById(Long aLong) {
         Author author = authorRepository
                 .findById(aLong)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Author not found"));
 
         Hibernate.initialize(author.getBooks());
-        return author;
+        return Optional.of(author);
     }
 
     @Override
@@ -47,6 +48,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void delete(Long aLong) {
+        authorRepository.findById(aLong).orElseThrow(()->new EntityNotFoundException("Author not found"));
         authorRepository.deleteById(aLong);
     }
 }

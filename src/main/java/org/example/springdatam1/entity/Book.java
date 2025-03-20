@@ -32,6 +32,9 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name="genre_id"))
     private Set<Genre> genres = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
 
     @Override
     public String toString() {

@@ -6,7 +6,10 @@ import org.example.springdatam1.services.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GenreServiceImpl implements GenreService {
@@ -21,9 +24,8 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre findById(Long aLong) {
-        return genreRepository.findById(aLong)
-                .orElseThrow(() -> new RuntimeException("Genre not found"));
+    public Optional<Genre> findById(Long id) {
+        return genreRepository.findById(id);
     }
 
     @Override
@@ -38,6 +40,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void delete(Long aLong) {
-
+        genreRepository.findById(aLong).orElseThrow(()->new EntityNotFoundException("Genre not found"));
+        genreRepository.deleteById(aLong);
     }
 }
