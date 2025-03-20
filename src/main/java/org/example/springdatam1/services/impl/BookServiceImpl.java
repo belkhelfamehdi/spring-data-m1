@@ -41,8 +41,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book update(Long aLong, Book entity) {
-        return null;
+    public Book update(Long id, Book newBookData) {
+        Book existingBook = findById(id).orElseThrow(() -> new EntityNotFoundException("Book not found"));
+        existingBook.setTitle(newBookData.getTitle());
+
+        if (newBookData.getAuthor() != null) {
+            existingBook.setAuthor(newBookData.getAuthor());
+        }
+        if (newBookData.getPublisher() != null) {
+            existingBook.setPublisher(newBookData.getPublisher());
+        }
+        if (!newBookData.getGenres().isEmpty()) {
+            existingBook.setGenres(newBookData.getGenres());
+        }
+
+        return bookRepository.save(existingBook);
     }
 
     @Override

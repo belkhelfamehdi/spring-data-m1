@@ -42,8 +42,10 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author update(Long aLong, Author entity) {
-        return null;
+    public Author update(Long id, Author newAuthorData) {
+        Author existingAuthor = findById(id).orElseThrow(() -> new EntityNotFoundException("Author not found"));
+        existingAuthor.setName(newAuthorData.getName());
+        return authorRepository.save(existingAuthor);
     }
 
     @Override

@@ -35,8 +35,10 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public Publisher update(Long aLong, Publisher entity) {
-        return null;
+    public Publisher update(Long id, Publisher newPublisherData) {
+        Publisher existingPublisher = findById(id).orElseThrow(() -> new EntityNotFoundException("Publisher not found")); // Ensure it exists
+        existingPublisher.setName(newPublisherData.getName()); // Update name
+        return publisherRepository.save(existingPublisher); // Save changes
     }
 
     @Override

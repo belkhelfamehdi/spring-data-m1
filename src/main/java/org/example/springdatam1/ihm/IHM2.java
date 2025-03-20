@@ -207,14 +207,20 @@ public class IHM2 implements CommandLineRunner {
         listerAuteurs();
         System.out.print("ID de l'auteur à modifier : ");
         Long id = scanner.nextLong();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume newline
+    
         System.out.print("Nouveau nom : ");
         String newName = scanner.nextLine();
-        authorService.findById(id).ifPresent(author -> {
-            author.setName(newName);
-            authorService.save(author);
+    
+        Author newAuthorData = new Author();
+        newAuthorData.setName(newName);
+    
+        try {
+            authorService.update(id, newAuthorData);
             System.out.println("Auteur modifié !");
-        });
+        } catch (RuntimeException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
     }
 
     private void supprimerAuteur() {
@@ -270,16 +276,22 @@ public class IHM2 implements CommandLineRunner {
         listerGenres();
         System.out.print("ID du genre à modifier : ");
         Long id = scanner.nextLong();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume newline
+    
         System.out.print("Nouveau nom : ");
         String newName = scanner.nextLine();
-        genreService.findById(id).ifPresent(genre -> {
-            genre.setName(newName);
-            genreService.save(genre);
+    
+        Genre newGenreData = new Genre();
+        newGenreData.setName(newName);
+    
+        try {
+            genreService.update(id, newGenreData);
             System.out.println("Genre modifié !");
-        });
+        } catch (RuntimeException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
     }
-
+    
     private void supprimerGenre() {
         listerGenres();
         System.out.print("ID du genre à supprimer : ");
@@ -333,14 +345,20 @@ public class IHM2 implements CommandLineRunner {
         listerPublishers();
         System.out.print("ID du publisher à modifier : ");
         Long id = scanner.nextLong();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume newline
+    
         System.out.print("Nouveau nom : ");
         String newName = scanner.nextLine();
-        publisherService.findById(id).ifPresent(publisher -> {
-            publisher.setName(newName);
-            publisherService.save(publisher);
+    
+        Publisher newPublisherData = new Publisher();
+        newPublisherData.setName(newName);
+    
+        try {
+            publisherService.update(id, newPublisherData);
             System.out.println("Publisher modifié !");
-        });
+        } catch (RuntimeException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
     }
 
     private void supprimerPublisher() {
